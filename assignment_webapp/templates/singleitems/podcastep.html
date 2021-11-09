@@ -1,0 +1,64 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- TODO Query (7)
+        Display All Relevant Podcast Episode Infromation including meta data
+
+        -->
+        {% if podcastep | length > 0 %}
+            <h2 class="title"> {{podcastep[0].podcast_episode_title}}, published on {{podcastep[0].podcast_episode_published_date}} </h2>
+            <br/>
+            <h2 class="title"> Podcast {{podcastep[0].podcast_id}}, Episode {{podcastep[0].media_id}}</h2>
+            <br/>
+            <h2 class="title"> Episode URI:</h2>
+            <h3>{{podcastep[0].podcast_episode_uri}}</h3>
+            <h2 class="title"></h2>
+            <br/>
+            <h3> Artworks </h3>
+            {% for instance in podcastep %}
+                {% if instance.md_type_name == 'artwork' %}
+                    <img src="{{instance.md_value}}" alt="image" width="250">
+                    <br/>© Amazon Public Domain 2019.
+                {% endif %}
+            {% endfor %}
+            <br/>
+            <h3> Descriptions </h3>
+            {% for instance in podcastep %}
+                {% if instance.md_type_name == 'description' %}
+                    <div>
+                        {{instance.md_value}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <br/>
+            <h3> Copyright Holder</h3>
+            {% for instance in podcastep %}
+                {% if instance.md_type_name == 'copyright holder' %}
+                    <div>
+                        {{instance.md_value}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <br/>    
+            <h3> Genres </h3>
+            {% for instance in movie %}
+                {% if instance.md_type_name == 'podcast genre' %}
+                    <div>
+                        <a id="genre" href="{{ url_for('single_genre', genre_id=instance.md_id) }}" data-href="{{ url_for('single_genre', genre_id=instance.md_id)}}">{{instance.md_value}}</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h3> MediaPlayer </h3>
+            <audio controls>
+                <source src="{{podcastep[0].podcast_episode_uri}}" type="audio/mpeg">
+                Your browser does not support this audio format.
+            </audio>
+        {% else %}
+            <h2 class="title"> Invalid Podcastep ID</h2>
+        {% endif %}
+    </div>
+    <!-- TODO - Query (10)
+        You will have to modify the above approach slightly to make each genre clickable
+        -->
+    </div>
+{% include 'bottom.html'%}

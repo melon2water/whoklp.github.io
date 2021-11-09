@@ -1,0 +1,39 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container details">
+        <!-- Check if We have a valid tvshow ep -->
+        {% if tvshowep | length > 0 %}
+            <h2 class="title"> {{tvshowep[0].tvshow_episode_title}} aired on {{tvshowep[0].air_date}} </h2>
+            <br/>
+            <h2 class="title"> Season {{tvshowep[0].season}}, Episode {{tvshowep[0].episode}} </h2>
+            <br/>
+            
+            <h3> Artworks </h3>
+            {% for instance in tvshowep %}
+                {% if instance.md_type_name == 'artwork' %}
+                    <img src="{{instance.md_value}}" alt="image" width="250">
+                    <br/>© Amazon Public Domain 2019.
+                {% endif %}
+            {% endfor %}
+            <br/>
+            <h3> Descriptions </h3>
+            {% for instance in tvshowep %}
+                {% if instance.md_type_name == 'description' %}
+                    <div>
+                        {{instance.md_value}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if media | length > 0 %}
+            <h3> MediaPlayer </h3>
+            <video controls width="250">
+                    <source src="{{media[0].storage_location }}" type="video/mp4">
+                    Sorry, your browser doesn't support embedded videos.
+            </video>
+            {% endif %}
+        {% else %}
+            <h2 class="title"> Invalid TV Show Ep ID</h2>
+        {% endif %}
+    </div>
+</div>
+{% include 'bottom.html'%}
